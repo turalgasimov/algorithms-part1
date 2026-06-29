@@ -3,7 +3,7 @@ import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 public class RandomWord {
-    public static void giveChamp() {
+    public static void main(String[] args) {
         String champ = null;
         int i = 0;
 
@@ -17,9 +17,5 @@ public class RandomWord {
         }
 
         StdOut.println(champ);
-    }
-
-    public static void main(String[] args) {
-        giveChamp();
     }
 }
