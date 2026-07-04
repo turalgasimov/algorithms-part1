@@ -131,7 +131,7 @@ public class Deque<T> implements Iterable<T> {
             public T next() {
                 if (!hasNext())
                     throw new NoSuchElementException("End of deque!");
-                
+
                 T item = curr.item;
                 curr = curr.next;
                 return item;
@@ -140,11 +140,12 @@ public class Deque<T> implements Iterable<T> {
 
             @Override
             public void remove() {
-                throw new UnsupportedOperationException();
+                throw new UnsupportedOperationException("remove() is not supported!");
             }
         };
     }
 
+    // unit testing (required)
     public static void main(String[] args) {
         System.out.println("--- Starting Deque Tests ---");
         Deque<String> deque = new Deque<>();
