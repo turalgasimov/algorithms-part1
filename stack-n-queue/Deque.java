@@ -1,16 +1,16 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class Deque<T> implements Iterable<T> {
+public class Deque<Item> implements Iterable<Item> {
 
-    private static class Node<T> {
-        private T item;
-        private Node<T> next;
-        private Node<T> prev;
+    private static class Node<Item> {
+        private Item item;
+        private Node<Item> next;
+        private Node<Item> prev;
     }
 
-    private Node<T> first;
-    private Node<T> last;
+    private Node<Item> first;
+    private Node<Item> last;
     private int size;
 
     // construct an empty deque
@@ -30,11 +30,11 @@ public class Deque<T> implements Iterable<T> {
     }
 
     // add the item to the front
-    public void addFirst(T item) {
+    public void addFirst(Item item) {
         if (item == null)
             throw new IllegalArgumentException("Item cannot be null!");
 
-        Node<T> newFirst = new Node<>();
+        Node<Item> newFirst = new Node<>();
 
         newFirst.item = item;
         newFirst.next = first;
@@ -52,11 +52,11 @@ public class Deque<T> implements Iterable<T> {
     }
 
     // add the item to the back
-    public void addLast(T item) {
+    public void addLast(Item item) {
         if (item == null)
             throw new IllegalArgumentException("Item cannot be null!");
 
-        Node<T> newLast = new Node<>();
+        Node<Item> newLast = new Node<>();
 
         newLast.item = item;
         newLast.next = null;
@@ -74,12 +74,12 @@ public class Deque<T> implements Iterable<T> {
     }
 
     // remove and return the item from the front
-    public T removeFirst() {
+    public Item removeFirst() {
         if (isEmpty())
             throw new NoSuchElementException("Deque is empty!");
 
-        Node<T> newFirst = first.next;
-        T item = first.item;
+        Node<Item> newFirst = first.next;
+        Item item = first.item;
 
         first.item = null;
         first.next = null;
@@ -96,12 +96,12 @@ public class Deque<T> implements Iterable<T> {
     }
 
     // remove and return the item from the back
-    public T removeLast() {
+    public Item removeLast() {
         if (isEmpty())
             throw new NoSuchElementException("Deque is empty!");
 
-        Node<T> newLast = last.prev;
-        T item = last.item;
+        Node<Item> newLast = last.prev;
+        Item item = last.item;
 
         last.item = null;
         last.prev = null;
@@ -118,9 +118,9 @@ public class Deque<T> implements Iterable<T> {
     }
 
     // return an iterator over items in order from front to back
-    public Iterator<T> iterator() {
-        return new Iterator<T>() {
-            private Node<T> curr = first;
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
+            private Node<Item> curr = first;
 
             @Override
             public boolean hasNext() {
@@ -128,11 +128,11 @@ public class Deque<T> implements Iterable<T> {
             }
 
             @Override
-            public T next() {
+            public Item next() {
                 if (!hasNext())
                     throw new NoSuchElementException("End of deque!");
 
-                T item = curr.item;
+                Item item = curr.item;
                 curr = curr.next;
                 return item;
 
