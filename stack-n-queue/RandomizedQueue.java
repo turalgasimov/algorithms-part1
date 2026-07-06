@@ -9,7 +9,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private int size;
 
     // construct an empty randomized queue
-    @SuppressWarnings("unchecked")
     public RandomizedQueue() {
         size = 0;
         arr = (Item[]) new Object[2];
@@ -26,7 +25,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     // method to resize the array
-    @SuppressWarnings("unchecked")
     private void resize(int capacity) {
         Item[] temp = (Item[]) new Object[capacity];
 
@@ -74,39 +72,35 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return arr[randIndex];
     }
 
+    private class RandomizedQueueIterator implements Iterator<Item> {
+        private final Item[] shuffledArr;
+        private int current;
+
+        public RandomizedQueueIterator() {
+            shuffledArr = (Item[]) new Object[size];
+            for (int i = 0; i < size; i++) {
+                shuffledArr[i] = arr[i];
+            }
+            StdRandom.shuffle(shuffledArr);
+            current = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return current < shuffledArr.length;
+        }
+
+        @Override
+        public Item next() {
+            if (!hasNext())
+                throw new NoSuchElementException("No more items to return!");
+            return shuffledArr[current++];
+        }
+    }
+
     // return an independent iterator over items in random order
-    @SuppressWarnings("unchecked")
     public Iterator<Item> iterator() {
-        return new Iterator<Item>() {
-
-            private Item[] copyArr = (Item[]) new Object[size];
-
-            {
-                for (int i = 0; i < size; i++)
-                    copyArr[i] = arr[i];
-                StdRandom.shuffle(copyArr);
-            }
-
-            private int current = 0;
-
-            @Override
-            public boolean hasNext() {
-                return current < size;
-            }
-
-            @Override
-            public Item next() {
-                if (!hasNext())
-                    throw new NoSuchElementException("No more elements!");
-                return copyArr[current++];
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException("remove() is not supported!");
-            }
-
-        };
+        return new RandomizedQueueIterator();
     }
 
     // unit testing (required)

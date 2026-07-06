@@ -15,7 +15,8 @@ public class Deque<Item> implements Iterable<Item> {
 
     // construct an empty deque
     public Deque() {
-        first = last = null;
+        first = null;
+        last = null;
         size = 0;
     }
 
@@ -85,9 +86,10 @@ public class Deque<Item> implements Iterable<Item> {
         first.next = null;
 
         this.size--;
-        if (isEmpty())
-            last = first = null;
-        else {
+        if (isEmpty()) {
+            last = null;
+            first = null;
+        } else {
             first = newFirst;
             newFirst.prev = null;
         }
@@ -107,9 +109,10 @@ public class Deque<Item> implements Iterable<Item> {
         last.prev = null;
 
         this.size--;
-        if (isEmpty())
-            first = last = null;
-        else {
+        if (isEmpty()) {
+            first = null;
+            last = null;
+        } else {
             last = newLast;
             newLast.next = null;
         }
@@ -117,32 +120,32 @@ public class Deque<Item> implements Iterable<Item> {
         return item;
     }
 
+    private class DequeIterator implements Iterator<Item> {
+        private Node<Item> curr = first;
+
+        @Override
+        public boolean hasNext() {
+            return curr != null;
+        }
+
+        @Override
+        public Item next() {
+            if (!hasNext())
+                throw new NoSuchElementException("End of deque!");
+            Item item = curr.item;
+            curr = curr.next;
+            return item;
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("remove() is not supported!");
+        }
+    }
+
     // return an iterator over items in order from front to back
     public Iterator<Item> iterator() {
-        return new Iterator<Item>() {
-            private Node<Item> curr = first;
-
-            @Override
-            public boolean hasNext() {
-                return curr != null;
-            }
-
-            @Override
-            public Item next() {
-                if (!hasNext())
-                    throw new NoSuchElementException("End of deque!");
-
-                Item item = curr.item;
-                curr = curr.next;
-                return item;
-
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException("remove() is not supported!");
-            }
-        };
+        return new DequeIterator();
     }
 
     // unit testing (required)
